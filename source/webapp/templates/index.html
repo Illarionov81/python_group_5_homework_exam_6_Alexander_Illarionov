@@ -27,12 +27,13 @@
                 <p> Time to change: {{ guest.updated_time }}<br/> </p>
             </div>
             <div class="coL col-lg-1 mt-5">
-                <a href="{% url 'note_update' guest.pk %}" ><button type="submit"  class="btn btn-primary">Update</button></a>
+                <a href="{% url 'note_update' guest.pk %}" ><button type="submit"  class="btn btn-success">Update</button></a>
             </div>
-{#            <div class="coL col-lg-1 mt-5">#}
-{#                <a href="{% url 'task_delete_view' task.pk %}" ><button type="submit"  class="btn btn-primary">Delete</button></a>#}
-{#            </div>#}
+            <div class="coL col-lg-1 mt-5">
+                <a href="{% url 'note_delete' guest.pk %}" ><button type="submit"  class="btn btn-danger">Delete</button></a>
+            </div>
         </div>
+        <hr>
     {% endfor %}
     <hr>
     </form>

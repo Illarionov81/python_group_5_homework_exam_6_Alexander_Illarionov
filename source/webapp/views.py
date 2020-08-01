@@ -54,10 +54,10 @@ def note_update_view(request, pk):
 
 
 def note_delete_view(request, pk):
-    product = get_object_or_404(GuestBook, pk=pk)
+    note = get_object_or_404(GuestBook, pk=pk)
     if request.method == 'GET':
-        return render(request, 'note_delete.html', context={'product': product})
+        return render(request, 'note_delete.html', context={'note': note})
     elif request.method == 'POST':
-        product.delete()
+        note.delete()
         return redirect("index")
 
