@@ -19,7 +19,6 @@ from django.urls import path
 from webapp.views import index_view,  note_create_view, note_update_view, note_delete_view
 
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index_view, name='index'),

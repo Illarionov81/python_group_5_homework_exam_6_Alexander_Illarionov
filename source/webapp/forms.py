@@ -8,4 +8,4 @@ class GuestBookForm(forms.Form):
                            label='Текст записи: ', widget=forms.Textarea)
 
 class FindAuthorForm(forms.Form):
-    name = forms.CharField(max_length=100, required=True, initial="Автор", label='Имя Автора: ')
+    name = forms.CharField(max_length=100, initial="Автор", label='Имя Автора: ')
