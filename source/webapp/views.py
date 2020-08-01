@@ -1,15 +1,31 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from webapp.models import GuestBook
-from webapp.forms import GuestBookForm
+from webapp.forms import GuestBookForm, FindAuthorForm
 from django.http import HttpResponseNotAllowed
 
 
 def index_view(request, *args, **kwargs):
-    goests_list = GuestBook.objects.filter(status='active').order_by('-created_time')
-    return render(request, 'index.html', context={
-        'form': GuestBookForm(),
-        'goests_list': goests_list
-    })
+    if request.method == "GET":
+        goests_list = GuestBook.objects.filter(status='active').order_by('-created_time')
+        return render(request, 'index.html', context={
+            'form': GuestBookForm(),
+            'find_form': FindAuthorForm(),
+            'goests_list': goests_list
+        })
+    elif request.method == "POST":
+        find_form = FindAuthorForm(data=request.POST)
+        if find_form.is_valid():
+            name = find_form.cleaned_data['name']
+            goests_list = GuestBook.objects.filter(name=name)
+            return render(request, 'index.html', context={
+                'goests_list': goests_list,
+                'find_form': find_form
+            })
+        else:
+            return render(request, 'index.html', context={
+                'form': GuestBookForm(),
+                'find_form': find_form,
+            })
 
 
 def note_create_view(request, *args, **kwargs):

@@ -8,6 +8,16 @@
 
     <h1 class="pt-4"><b>Guest Booke:</b></h1>
     <hr>
+    <form action="{% url 'index' %}" method="post">
+        {% csrf_token %}
+        {% for field in find_form %}
+            {% include 'partial/form_field.html' %}
+        {% endfor %}
+        <div class="col-sm-2">
+            <button type="submit" class="btn btn-block btn-sm btn-success mb-2">Найти</button>
+        </div>
+    </form>
+    <hr>
     <i><h3 class="mb-4 text-secondary">Добавить запись в книгу.</h3></i>
      <form action="{% url 'note_create' %}" method="post">
         {% csrf_token %}
