@@ -8,29 +8,33 @@
 
     <h1 class="pt-4"><b>Guest Booke:</b></h1>
     <hr>
+    <i><h3 class="mb-4 text-secondary">Добавить запись в книгу.</h3></i>
+     <form action="{% url 'note_create' %}" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            {% include 'partial/form_field.html' %}
+        {% endfor %}
+        <div class="col-sm-2">
+            <button type="submit" class="btn btn-block btn-sm btn-success mb-2">Добавить запись</button>
+        </div>
+    </form>
+    <hr>
     {% for guest in goests_list %}
         <div class="row ">
             <div class="col col-lg-12 border-dark border mb-3 rounded">
-                <div class="row ">
+                <div class="row mt-4 mb-3">
                     <div class="col col-lg-8">
                         <h4>{{ guest.name }} ({{ guest.email }}) </h4>
                     </div>
-                    <div class="col col-lg-2">
-                        <i class="bg-images fa-edit mb-3"></i>
-                        <a href="#" class="bg-images" ></a>
+                    <div class="col col-lg-1">
+                      <a href="{% url 'note_update' guest.pk %}" class="img-fluid"><img class="cartincka" src="{% static 'img/edit-solid.svg' %}" alt="edit"></a>
                     </div>
-                    <div class="col col-lg-2">
-                      <a href="#" ></a>
+                    <div class="col col-lg-1 ">
+                        <a href="{% url 'note_delete' guest.pk %}"  class="img-fluid"><img class="cartincka" src="{% static 'img/trash-alt-regular.svg' %}" alt="trash"></a>
                     </div>
                 </div>
                 <p> {{ guest.text | linebreaksbr}} </p>
                 <p> Time to change: {{ guest.updated_time }}<br/> </p>
-            </div>
-            <div class="coL col-lg-1 mt-5">
-                <a href="{% url 'note_update' guest.pk %}" ><button type="submit"  class="btn btn-success">Update</button></a>
-            </div>
-            <div class="coL col-lg-1 mt-5">
-                <a href="{% url 'note_delete' guest.pk %}" ><button type="submit"  class="btn btn-danger">Delete</button></a>
             </div>
         </div>
         <hr>

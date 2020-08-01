@@ -1,18 +1,8 @@
+
 hr {
     margin: 10px 0;
 }
 
-.error {
-    font-weight: bold;
-    color: red;
-    margin-top: 2px;
-}
-
-.bg-images{
-  display: inline-block;
-  color: #5bbc2e;
-  background-repeat: no-repeat;
-  background-position: 50%;
-  width: 45px;
-  height: 45px;
+.cartincka {
+    width: 30px;
 }

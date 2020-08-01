@@ -1,12 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from webapp.models import GuestBook, STATUS_CHOICES
+from webapp.models import GuestBook
 from webapp.forms import GuestBookForm
 from django.http import HttpResponseNotAllowed
 
 
-def index_view(request):
+def index_view(request, *args, **kwargs):
     goests_list = GuestBook.objects.filter(status='active').order_by('-created_time')
     return render(request, 'index.html', context={
+        'form': GuestBookForm(),
         'goests_list': goests_list
     })
 
