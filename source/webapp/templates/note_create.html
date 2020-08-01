@@ -3,15 +3,14 @@
 {% block title %}Add a note{% endblock %}
 
 {% block contant %}
-    <h3 class=" col-md-6 pt-4"><b>Add task:</b></h3>
-    <form action="{% url 'index' %}" method="post">
+    <h3 class=" col-md-6 pt-4"><b>Add note:</b></h3>
+    <form action="{% url 'note_create' %}" method="post">
         {% csrf_token %}
         {% for field in form %}
             {% include 'partial/form_field.html' %}
         {% endfor %}
-
         <div class="col-sm-2">
-            <button type="submit" class="btn btn-primary mb-2">Add</button>
+            <button type="submit" class="btn btn-primary mb-2">Добавить запись</button>
         </div>
     </form>
 {% endblock %}

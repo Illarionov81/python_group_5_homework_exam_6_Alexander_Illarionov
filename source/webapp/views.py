@@ -23,7 +23,7 @@ def note_create_view(request, *args, **kwargs):
             text = form.cleaned_data['text']
             email = form.cleaned_data['email']
             guest = GuestBook.objects.create(name=name, email=email, text=text)
-            return redirect('index', pk=guest.pk)
+            return redirect('index')
         else:
             return render(request, 'note_create.html', context={'form': form})
     else:

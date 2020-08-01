@@ -8,9 +8,9 @@ STATUS_CHOICES = (
 
 
 class GuestBook(models.Model):
-    name = models.CharField(max_length=100, verbose_name='Имя Автора')
-    email = models.EmailField(max_length=100, verbose_name='Емайл')
-    text = models.TextField(max_length=2000,  verbose_name='Текст записи')
+    name = models.CharField(max_length=100, null=False, blank=False, verbose_name='Имя Автора')
+    email = models.EmailField(max_length=100, null=False, blank=False, verbose_name='Емайл')
+    text = models.TextField(max_length=2000, null=False, blank=False, verbose_name='Текст записи')
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     updated_time = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
     status = models.CharField(max_length=14, verbose_name='Статус',
