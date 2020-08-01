@@ -5,7 +5,7 @@ from django.http import HttpResponseNotAllowed
 
 
 def index_view(request, *args, **kwargs):
-    find_form = FindAuthorForm(data=request.POST)
+    find_form = FindAuthorForm(data=request.GET)
     if find_form.is_valid():
         name = find_form.cleaned_data['name']
         goests_list = GuestBook.objects.filter(name=name, status='active')

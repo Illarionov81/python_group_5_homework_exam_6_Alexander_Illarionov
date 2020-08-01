@@ -8,7 +8,7 @@
 
     <h1 class="pt-4"><b>Guest Booke:</b></h1>
     <hr>
-    <form action="{% url 'index' %}" method="post">
+    <form action="{% url 'index' %}" method="get">
         {% csrf_token %}
         {% for field in find_form %}
             {% include 'partial/form_field.html' %}
