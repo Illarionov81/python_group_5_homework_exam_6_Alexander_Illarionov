@@ -11,6 +11,7 @@ def index_view(request, *args, **kwargs):
         goests_list = GuestBook.objects.filter(name=name, status='active')
         return render(request, 'index.html', context={
             'goests_list': goests_list,
+            'form': GuestBookForm(),
             'find_form': find_form
         })
     else:
