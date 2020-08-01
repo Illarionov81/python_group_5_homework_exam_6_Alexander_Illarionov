@@ -1,22 +1,36 @@
-# from django.shortcuts import render, get_object_or_404, redirect
-# from webapp.models import Product, CATEGORY_CHOICES
-# from webapp.forms import ProductForm
-# from django.http import HttpResponseNotAllowed
-#
-#
-# def index_view(request):
-#     data = Product.objects.all()
-#     return render(request, 'index.html', context={
-#         'products': data
-#     })
-#
-#
-# def product_view(request, pk):
-#     product = get_object_or_404(Product, pk=pk)
-#     context = {'product': product}
-#     return render(request, "product.html", context)
-#
-#
+from django.shortcuts import render, get_object_or_404, redirect
+from webapp.models import GuestBook, STATUS_CHOICES
+from webapp.forms import GuestBookForm
+from django.http import HttpResponseNotAllowed
+
+
+def index_view(request):
+    goests_list = GuestBook.objects.filter(status='active').order_by('-created_time')
+    return render(request, 'index.html', context={
+        'goests_list': goests_list
+    })
+
+
+def note_create_view(request, *args, **kwargs):
+    if request.method == "GET":
+        return render(request, 'note_create.html', context={
+            'form': GuestBookForm()
+        })
+    elif request.method == 'POST':
+        form = GuestBookForm(data=request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            text = form.cleaned_data['text']
+            email = form.cleaned_data['email']
+            guest = GuestBook.objects.create(name=name, email=email, text=text)
+            return redirect('index', pk=guest.pk)
+        else:
+            return render(request, 'note_create.html', context={'form': form})
+    else:
+        return HttpResponseNotAllowed(permitted_methods=['GET', 'POST'])
+
+
+
 # def product_delete_view(request, pk):
 #     product = get_object_or_404(Product, pk=pk)
 #     if request.method == 'GET':
@@ -24,28 +38,6 @@
 #     elif request.method == 'POST':
 #         product.delete()
 #         return redirect("index")
-#
-#
-# def product_create_view(request, *args, **kwargs):
-#     if request.method == "GET":
-#         return render(request, 'product_create.html', context={
-#             'form': ProductForm()
-#         })
-#     elif request.method == 'POST':
-#         form = ProductForm(data=request.POST)
-#         if form.is_valid():
-#             name = form.cleaned_data['name']
-#             description = form.cleaned_data['description']
-#             category = form.cleaned_data['category']
-#             amount = form.cleaned_data['amount']
-#             price = form.cleaned_data['price']
-#             product = Product.objects.create(name=name, description=description,
-#                                              category=category, amount=amount, price=price)
-#             return redirect('product_view', pk=product.pk)
-#         else:
-#             return render(request, 'product_create.html', context={'form': form})
-#     else:
-#         return HttpResponseNotAllowed(permitted_methods=['GET', 'POST'])
 #
 #
 # def product_update_view(request, pk):
