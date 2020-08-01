@@ -22,7 +22,7 @@ def note_create_view(request, *args, **kwargs):
             name = form.cleaned_data['name']
             text = form.cleaned_data['text']
             email = form.cleaned_data['email']
-            guest = GuestBook.objects.create(name=name, email=email, text=text)
+            GuestBook.objects.create(name=name, email=email, text=text)
             return redirect('index')
         else:
             return render(request, 'note_create.html', context={'form': form})
@@ -30,40 +30,34 @@ def note_create_view(request, *args, **kwargs):
         return HttpResponseNotAllowed(permitted_methods=['GET', 'POST'])
 
 
+def note_update_view(request, pk):
+    note = get_object_or_404(GuestBook, pk=pk)
+    if request.method == "GET":
+        form = GuestBookForm(data={
+            'name': note.name,
+            'email': note.email,
+            'text': note.text,
+        })
+        return render(request, 'note_update.html', context={'form': form, 'note': note})
+    elif request.method == 'POST':
+        form = GuestBookForm(data=request.POST)
+        if form.is_valid():
+            note.name = form.cleaned_data['name']
+            note.email = form.cleaned_data['email']
+            note.text = form.cleaned_data['text']
+            note.save()
+            return redirect('index')
+        else:
+            return render(request, 'note_update.html', context={'form': form, 'note': note})
+    else:
+        return HttpResponseNotAllowed(permitted_methods=['GET', 'POST'])
 
-# def product_delete_view(request, pk):
-#     product = get_object_or_404(Product, pk=pk)
-#     if request.method == 'GET':
-#         return render(request, 'product_delete.html', context={'product': product})
-#     elif request.method == 'POST':
-#         product.delete()
-#         return redirect("index")
-#
-#
-# def product_update_view(request, pk):
-#     product = get_object_or_404(Product, pk=pk)
-#     if request.method == "GET":
-#         form = ProductForm(data={
-#             'name': product.name,
-#             'category': product.category,
-#             'description': product.description,
-#             'amount': product.amount,
-#             'price': product.price
-#         })
-#         return render(request, 'product_update.html', context={'form': form, 'product': product})
-#     elif request.method == 'POST':
-#         form = ProductForm(data=request.POST)
-#         if form.is_valid():
-#             product.name = form.cleaned_data['name']
-#             product.category = form.cleaned_data['category']
-#             product.description = form.cleaned_data['description']
-#             product.amount = form.cleaned_data['amount']
-#             product.price = form.cleaned_data['price']
-#             product.save()
-#             return redirect('product_view', pk=product.pk)
-#         else:
-#             return render(request, 'product_update.html', context={'product': product, 'form': form})
-#     else:
-#         return HttpResponseNotAllowed(permitted_methods=['GET', 'POST'])
-#
-#
+
+def note_delete_view(request, pk):
+    product = get_object_or_404(GuestBook, pk=pk)
+    if request.method == 'GET':
+        return render(request, 'note_delete.html', context={'product': product})
+    elif request.method == 'POST':
+        product.delete()
+        return redirect("index")
+
